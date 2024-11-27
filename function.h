@@ -92,11 +92,19 @@ void Student::readFromCSV(const string &fileName)
         ss >> finals[size];
         ss.ignore(1);
 
-        ss >> attendance[size];
+        if (ss.peek() != EOF)
+        {
+            ss >> attendance[size];
+        }
+        else
+        {
+            attendance[size] = 0; // Varsayılan değer
+        }
         size++;
     }
     file.close();
 }
+
 
 void Student::print(int arg = -1, const string &outputFileName = "")
 // CONST STRİNG TANIMLAMA NEDENİM PRİNT İÇERİİSNDE ORAYA ARGÜMAN GELİRSE ARGÜMANI ÇAĞIR GELMEZSE BO STRİNG OLARAK ATA
@@ -120,15 +128,34 @@ void Student::print(int arg = -1, const string &outputFileName = "")
     for (int i = 0; i < size; ++i)
     {
         float avg = average(i);
-        if ((arg == 0 && avg < 50) || (arg == 1 && avg >= 50) || arg == -1)
+        bool isAvailable = attendance[i] < 10;
+        if ((arg == 0 && isAvailable) || (arg == 0 && avg < 50))
         {
             file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << '\n';
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
             // FİLE İLE DOSYAYA YAZMA İŞLEMİ OLUYOR FAKAT SADECE FİLE YAZARSAK TERMİANLDE GÖREMİYORUZ
 
             cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << '\n';
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
             // BU KOD TERMİANLDE GÖSTERMEK İÇİN DOSYAYA YAZDIRMA İŞLEMİ HA YOKARDAKİ
+        }
+
+        else if ((arg == 1 && avg >= 50 && !isAvailable))
+        {
+            file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+
+            cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+        }
+
+        else if (arg == -1)
+        {
+            file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+
+            cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
         }
     }
 }

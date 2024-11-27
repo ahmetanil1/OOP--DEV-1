@@ -4,20 +4,37 @@
 
 int main()
 {
-    SetConsoleOutputCP(65001);    // TÜRKÇE KARAKTERE ÇEVİRMEYİ SAĞLAR
+    SetConsoleOutputCP(65001); // TÜRKÇE KARAKTERE ÇEVİRMEYİ SAĞLAR
 
     Student student;
     student.readFromCSV("girdi.csv");
+    int secim;
+    cout << "0-Kalan Öğrenciler\n1-Geçen Öğrenciler\n2-Tüm Öğrenciler\nİşlemi gir: ";
+    cin >> secim;
 
-    cout << "Tüm Öğrenciler:\n";
-    student.print();
+    switch (secim)
+    {
+    case 0:
+        cout << "\nKalan Öğrenciler:\n";
+        student.print(0);
+        cout << "\n";
 
-    cout << "\nKalan Öğrenciler:\n";
-    student.print(0);
+        break;
+    case 1:
+        cout << "\nGeçen Öğrenciler:\n";
+        student.print(1);
+        cout << "\n";
+        break;
+    case 2:
+        cout << "\nTüm Öğrenciler\n";
+        student.print();
+        cout << "\n";
 
-    cout << "\nGeçen Öğrenciler:\n";
-    student.print(1);
+        break;
+    default:
+        student.print(-1, "output.csv");
+        break;
+    }
 
-    student.print(-1, "output.csv");
     return 0;
 }

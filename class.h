@@ -21,4 +21,3 @@ public:
     void print(int arg, const string &outputFileName);
     void resize();
 };
-
