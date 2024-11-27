@@ -31,10 +31,8 @@ int main()
         cout << "\n";
 
         break;
-    default:
-        student.print(-1, "output.csv");
-        break;
     }
 
+    // student.print(-1, "output.csv");
     return 0;
 }
