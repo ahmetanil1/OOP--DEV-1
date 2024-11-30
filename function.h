@@ -105,25 +105,18 @@ void Student::readFromCSV(const string &fileName)
     file.close();
 }
 
-
-void Student::print(int arg = -1, const string &outputFileName = "")
-// CONST STRİNG TANIMLAMA NEDENİM PRİNT İÇERİİSNDE ORAYA ARGÜMAN GELİRSE ARGÜMANI ÇAĞIR GELMEZSE BO STRİNG OLARAK ATA
-// CONST OLARAK TANIMLANMAZSA ORAYA HERAHNGİ BİR ARGÜMAN GELDİĞİNDE O ARGÜMANI SABİR OLARAK ALIR ÇÜNKÜ OUTPUTFİLENAME REFERANS İLE ÇAĞRILDI.
-// ALTERNATİF KULLANIMI : string outputFileName = ""
-// YUKARDAKİ İFADENİN DEZAVANTAJI HERHANGİ BİR VERİ DEĞİŞİRSE O VERİYİ YAZZMAK İÇİN YENİ BİR BELLEK HÜCRESİ OLUŞTURUR VE ORAYA YAZAR
-// AMPERSAND KULLANIM AMACI İLK HÜCRENİN ÜZERİNE YAZ VE PERFORMANSIA ARTIR
+void Student::print() // dosyayý okur ve konsola tüm öðrenci listesini yazdirir
 {
-    ofstream file;
-
-    if (!outputFileName.empty())
+    for (int i = 0; i < size; ++i)
     {
-        file.open(outputFileName);
-        if (!file.is_open())
-        {
-            cerr << "Çıkış dosyası açılamadı: " << outputFileName << endl;
-            return;
-        }
+        float avg = average(i);
+
+        cout << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i] << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
     }
+}
+
+void Student::print(int arg) // seçime göre konsola kalan-gecenleri yazdirir
+{
 
     for (int i = 0; i < size; ++i)
     {
@@ -131,31 +124,47 @@ void Student::print(int arg = -1, const string &outputFileName = "")
         bool isAvailable = attendance[i] < 10;
         if ((arg == 0 && isAvailable) || (arg == 0 && avg < 50))
         {
-            file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
-            // FİLE İLE DOSYAYA YAZMA İŞLEMİ OLUYOR FAKAT SADECE FİLE YAZARSAK TERMİANLDE GÖREMİYORUZ
-
-            cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
-            // BU KOD TERMİANLDE GÖSTERMEK İÇİN DOSYAYA YAZDIRMA İŞLEMİ HA YOKARDAKİ
+            cout << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i] << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
         }
 
         else if ((arg == 1 && avg >= 50 && !isAvailable))
         {
-            file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+            cout << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i] << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
+        }
+    }
+}
 
-            cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+void Student::print(int secim, const string &outputFileName) // secime göre DOSYAYA secilen þeyi yazdýrýr
+{
+
+    ofstream file("cikti.csv");
+
+    if (!file)
+    { // Dosya açýlmazsa hata ver
+        cerr << "cikti dosyasi acilamadi!" << endl;
+        return;
+    }
+
+    for (int i = 0; i < size; ++i)
+    {
+        float avg = average(i);
+        bool isAvailable = attendance[i] < 10;
+        if ((secim == 0 && isAvailable) || (secim == 0 && avg < 50))
+        {
+            file << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
         }
 
-        else if (arg == -1)
+        else if ((secim == 1 && avg >= 50 && !isAvailable))
         {
-            file << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+            file << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
+        }
 
-            cout << "Ad: " << names[i] << ", Öğrenci Numarası: " << studentNumbers[i]
-                 << ", Ortalama: " << avg << ", Devam Sayısı:" << attendance[i] << '\n';
+        else if (secim == 2)
+        {
+            file << "Ad: " << names[i] << ", Öğrenci Numarası" << studentNumbers[i]
+                 << ", Ortalama: " << avg << ", Devam Sayısı" << attendance[i] << '\n';
         }
     }
 }

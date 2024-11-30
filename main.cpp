@@ -17,22 +17,30 @@ int main()
     case 0:
         cout << "\nKalan Öğrenciler:\n";
         student.print(0);
+        student.print(secim, "cikti.csv");
         cout << "\n";
 
         break;
     case 1:
         cout << "\nGeçen Öğrenciler:\n";
         student.print(1);
+        student.print(secim, "cikti.csv");
         cout << "\n";
         break;
     case 2:
         cout << "\nTüm Öğrenciler\n";
         student.print();
+        student.print(secim, "cikti.csv");
         cout << "\n";
 
         break;
     }
+    main();
 
-    // student.print(-1, "output.csv");
     return 0;
 }
+// CONST STRİNG TANIMLAMA NEDENİM PRİNT İÇERİİSNDE ORAYA ARGÜMAN GELİRSE ARGÜMANI ÇAĞIR GELMEZSE BO STRİNG OLARAK ATA
+// CONST OLARAK TANIMLANMAZSA ORAYA HERAHNGİ BİR ARGÜMAN GELDİĞİNDE O ARGÜMANI SABİR OLARAK ALIR ÇÜNKÜ OUTPUTFİLENAME REFERANS İLE ÇAĞRILDI.
+// ALTERNATİF KULLANIMI : string outputFileName = ""
+// YUKARDAKİ İFADENİN DEZAVANTAJI HERHANGİ BİR VERİ DEĞİŞİRSE O VERİYİ YAZZMAK İÇİN YENİ BİR BELLEK HÜCRESİ OLUŞTURUR VE ORAYA YAZAR
+// AMPERSAND KULLANIM AMACI İLK HÜCRENİN ÜZERİNE YAZ VE PERFORMANSIA ARTIR

@@ -18,6 +18,8 @@ public:
     ~Student();
     void readFromCSV(const string &fileName);
     float average(int index);
-    void print(int arg, const string &outputFileName);
+    void print();
+    void print(int arg);
+    void print(int secim, const string &outputFileName);
     void resize();
 };
